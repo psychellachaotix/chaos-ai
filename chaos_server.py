@@ -16,10 +16,12 @@ def read_root():
 @app.post("/chat")
 def chat_chaos(request: ChatRequest):
     user_message = request.message
+    if not user_message:
+        raise HTTPException(status_code=400, detail="Zpráva nesmí být prázdná")
     response = f"Chaos říká: {user_message[::-1]}"  # Odpověď otočí text
     return {"response": response}
 
 PORT = int(os.getenv("PORT", 8080))
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=PORT)
+    uvicorn.run(app, host="8.0.8.0", port=PORT)
